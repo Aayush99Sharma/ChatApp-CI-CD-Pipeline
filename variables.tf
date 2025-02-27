@@ -37,3 +37,24 @@ variable "az2" {
   description = "Availability Zone 2"
   type        = string
 }
+
+
+variable "Backend_ami_id" {
+  description = "AMI ID for backend EC2 instance"
+  type        = string
+}
+
+variable "Frontend_ami_id" {
+  description = "AMI ID for frontend EC2 instance"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Type of the EC2 instance"
+  type        = string
+}
+
+variable "key_name" {
+  description = "Key pair name for SSH access"
+  type        = string
+}

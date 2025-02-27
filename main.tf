@@ -130,3 +130,102 @@ resource "aws_route_table_association" "private2" {
   subnet_id      = aws_subnet.private2.id
   route_table_id = aws_route_table.private.id
 }
+
+
+resource "aws_security_group" "backend" {
+  name   = "BackendSecurityGroup"
+  vpc_id = aws_vpc.main.id
+
+  # Ingress rules
+  ingress {
+    description = "Allow SSH access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow from anywhere (adjust as needed)
+  }
+
+  ingress {
+    description = "Allow HTTP for Django"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow from anywhere (adjust as needed)
+  }
+
+  # Egress rules
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" # All protocols
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "BackendSecurityGroup"
+  }
+}
+
+resource "aws_instance" "backend" {
+  ami                    = var.Backend_ami_id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.private1.id
+  key_name               = var.key_name
+  vpc_security_group_ids = [aws_security_group.backend.id]
+
+  tags = {
+    Name = "Backend-Django-Clone"
+  }
+}
+
+resource "aws_security_group" "frontend" {
+  name        = "FrontendSecurityGroup"
+  description = "Security group for frontend instance"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" # All traffic
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "FrontendSecurityGroup"
+  }
+}
+
+
+resource "aws_instance" "frontend" {
+  ami                    = var.Frontend_ami_id         
+  instance_type          = var.instance_type   
+  subnet_id              = aws_subnet.public1.id
+  key_name               = var.key_name      
+  vpc_security_group_ids = [aws_security_group.frontend.id]
+
+  tags = {
+    Name = "Frontend-Django-Instance"
+  }
+}

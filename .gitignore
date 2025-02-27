@@ -1,9 +1,12 @@
-# Ignore AWS credentials, SSH keys, and Terraform state files
+# Ignore AWS credentials & SSH keys
 .aws/
 .ssh/
 .terraform/
 .terraform.d/
 *.tfstate
-*.tfvars
+*.tfstate.backup
+terraform.tfvars
 *.pem
 *.log
+*.hsts
+*.bak
