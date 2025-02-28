@@ -1,10 +1,10 @@
-# Store Terraform State in Terraform Cloud
 terraform {
-  cloud {
-    organization = "aayush8276"  # Your Terraform Cloud organization name
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "aayush8276"  # Your Terraform Cloud organization
 
     workspaces {
-      name = "ChatApp-CI-CD-Pipeline"  # Your Terraform Cloud workspace name
+      name = "ChatApp-CI-CD-Pipeline"  # Your Terraform Cloud workspace
     }
   }
 }
