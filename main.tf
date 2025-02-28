@@ -1,3 +1,14 @@
+# Store Terraform State in Terraform Cloud
+terraform {
+  cloud {
+    organization = "aayush8276"  # Your Terraform Cloud organization name
+
+    workspaces {
+      name = "ChatApp-CI-CD-Pipeline"  # Your Terraform Cloud workspace name
+    }
+  }
+}
+
 # Create VPC
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
