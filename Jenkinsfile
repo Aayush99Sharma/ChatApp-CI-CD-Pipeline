@@ -13,12 +13,12 @@ pipeline {
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -var-file="terraform.tfvars" -out=tfplan'
+                sh 'terraform plan -var-file="terraform.tfvars"'
             }
         }
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply "tfplan"'
+                sh 'terraform apply'
             }
         }
     }
