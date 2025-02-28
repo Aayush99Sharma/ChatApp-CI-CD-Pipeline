@@ -12,18 +12,6 @@ pipeline {
             }
         }
 
-        stage('Select Terraform Workspace') {
-            steps {
-                sh '''
-                if terraform workspace list | grep -q "-dev"; then
-                    terraform workspace select -dev
-                else
-                    terraform workspace new -dev
-                fi
-                '''
-            }
-        }
-
         stage('Setup Terraform') {
             steps {
                 sh 'terraform init'
