@@ -4,7 +4,7 @@ terraform {
     organization = "aayush8276"  # Your Terraform Cloud organization
 
     workspaces {
-      name = "ChatApp-CI-CD-Pipeline"  # Your Terraform Cloud workspace
+      prefix = "ChatApp-CI-CD-Pipeline"
     }
   }
 }
